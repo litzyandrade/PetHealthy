@@ -39,7 +39,7 @@ const Login = () => {
     <StyledContainer>
       <StatusBar style="dark" />
       <InnerContainer>
-        <PageLogo resizeMode="cover" source={{uri: 'https://coolthemestores.com/wp-content/uploads/2021/08/shiba-inu-wallpaper-background.jpg'}} />
+        <PageLogo resizeMode="cover" source={{uri: 'https://image.freepik.com/free-photo/close-up-veterinarian-taking-care-dog_23-2149100195.jpg'}} />
         <PageTitle>Pet Healthy</PageTitle>
         <SubTitle>Inicia Sesion</SubTitle>
 

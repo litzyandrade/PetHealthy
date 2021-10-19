@@ -1,9 +1,9 @@
 import React from "react";
-import { SafeAreaView, TouchableOpacity, View, Text } from "react-native";
+import { SafeAreaView, TouchableOpacity, View, Text, ImageBackground } from "react-native";
 import { Heading, Image } from "native-base";
 
 import {MaterialIcons} from "@expo/vector-icons";
-
+const image = { uri: "https://reactjs.org/logo-og.png" };
 const Home =({navigation})=>{
     return(
      
