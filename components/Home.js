@@ -1,15 +1,16 @@
 import React from "react";
-import { SafeAreaView, TouchableOpacity, View, Text, ImageBackground } from "react-native";
+import { SafeAreaView, TouchableOpacity, View, Text, ImageBackground ,StyleSheet} from "react-native";
 import { Heading, Image } from "native-base";
 
 import {MaterialIcons} from "@expo/vector-icons";
-const image = { uri: "https://reactjs.org/logo-og.png" };
+
 const Home =({navigation})=>{
+   
     return(
      
         <SafeAreaView style={{flex:1, justifyContent:'center',alignItems:'center', backgroundColor:'#dcdcdc'}}>
           
-            <View >
+            <View>
                 <Text style={{fontSize: 20, fontWeight: 'normal', color: '#20315f'}}>Bienvenido a </Text>
                 <Text style={{fontSize: 30, fontWeight:'bold', color: '#20315f'}}>PET<Text style={{color:'#4682b4', textDecorationStyle:'dashed'}}>HEALTHY</Text></Text>
             </View>
@@ -17,9 +18,10 @@ const Home =({navigation})=>{
                 size={350}
                 resizeMode={"contain"}
                 borderRadius={100}
-                source={require('../images/1.png')}
+                source={{uri: 'https://image.freepik.com/vector-gratis/ilustracion-concepto-veterinario_114360-3007.jpg'}}
                 alt="Alternate Text"
     />
+    
             <TouchableOpacity 
                 onPress={() => navigation.navigate('Login')}
                 style={{backgroundColor: '#4682b4', 

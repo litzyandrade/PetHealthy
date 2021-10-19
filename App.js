@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './components/Login';
 import Home from './components/Home';
+import Register from './components/Register';
  
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +36,15 @@ const Stack = createNativeStackNavigator();
         <Stack.Navigator>
           <Stack.Screen name="Home" component={Home} options={{headerShown:false }}/>
           <Stack.Screen name="Login" component={Login} options={{headerStyle: {
+            backgroundColor: '#4682b4',
+          },
+          headerTintColor: '#fff',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            
+          }}}/>
+          <Stack.Screen name="Register" component={Register} options={{headerStyle: {
             backgroundColor: '#4682b4',
           },
           headerTintColor: '#fff',
