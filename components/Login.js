@@ -31,8 +31,8 @@ const { darkLight, brand, primary } = Colors;
 // icon
 import { Octicons, Fontisto, Ionicons } from '@expo/vector-icons';
 
-const Login = () => {
-
+const Login = ({navigation}) => {
+  const [hidePassword, setHidePassword] = useState(true);
   const [isHidden, setIsHidden] = useState(false)
   const handleClick= () => setIsHidden(!isHidden)
   return (
@@ -56,18 +56,18 @@ const Login = () => {
                 placeholder="* * * * * * * *"
                 placeholderTextColor={darkLight}
                 icon="lock"
-               
+                secureTextEntry = {true}
             
               />
-              <MsgBox>...</MsgBox>
+
               <StyledButton>
                 <ButtonText>INICIA SESION</ButtonText>
               </StyledButton>
               <Line />
               <ExtraView>
                 <ExtraText>¿Aun no tienes cuenta? </ExtraText>
-                <TextLink>
-                  <TextLinkContent>Registrate</TextLinkContent>
+                <TextLink onPress={() => navigation.navigate('Register')}>
+                  <TextLinkContent >Registrate</TextLinkContent>
                 </TextLink>
               </ExtraView>
             </StyledFormArea>
