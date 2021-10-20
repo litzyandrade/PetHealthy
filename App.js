@@ -11,37 +11,18 @@ import {Text, View, Image, Icon} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MaterialIcons from  '@expo/vector-icons';
 import Profile from './components/Profile';
+import Pets from './components/Pets';
+import Appointments from './components/Appointments';
+import NewAppointment from './components/NewAppointment';
 const Stack = createNativeStackNavigator();
-
+{/* Custom header   */}
 function CustomHeaderStack(){
 return (
  <Text style={{fontWeight: 'bold', color: '#fff', fontSize: 20, fontStyle: 'italic'}}>
    Pet <Text style={{fontWeight: 'bold', color: '#fff', fontSize: 20}}>Healthy</Text></Text>
 )
 }
-{/* STACKSSS  */}
-
-
-function PetsSTACK() {
-  return (
-    <SafeAreaView style={{ flex: 1}}>
-      <View style={{flex:1, justifyContent: 'center', alignItems:'center'}}>
-      <Text>pets!</Text>
-     </View> 
-    </SafeAreaView>
-  );
-}
-function DateSTACK() {
-  return (
-    <SafeAreaView style={{ flex: 1}}>
-      <View style={{flex:1, justifyContent: 'center', alignItems:'center'}}>
-      <Text>Dates!</Text>
-     </View> 
-    </SafeAreaView>
-  );
-}
-
-
+{/* TAB NAVIGATOR  */}
 const Tab = createBottomTabNavigator();
 function UserTabs() {
   return (
@@ -59,6 +40,9 @@ function UserTabs() {
         else if (route.name === 'Consultas') {
           iconName = focused ? require('./images/calendar.png') : require('./images/calendar.png');
         }
+        else if (route.name === 'Crear Cita') {
+          iconName = focused ? require('./images/plus.png') : require('./images/plus.png');
+        }
 
         // You can return any component that you like here!
         return <Image source= {iconName} style={{width: 30, height:30}} resizeMode= "contain"/>;
@@ -68,9 +52,12 @@ function UserTabs() {
       tabBarActiveBackgroundColor:'#4682b4',
       tabBarInactiveBackgroundColor: '#4682b4'
     })}>
+      
+      <Tab.Screen name="Mascotas" component={Pets} options={{headerShown :false}}/>
+      <Tab.Screen name="Consultas" component={Appointments}options={{headerShown :false}} />
+      <Tab.Screen name="Crear Cita" component={NewAppointment}options={{headerShown :false}} />
       <Tab.Screen name="Perfil" component={Profile}  options={{headerShown :false}}/>
-      <Tab.Screen name="Mascotas" component={PetsSTACK} options={{headerShown :false}}/>
-      <Tab.Screen name="Consultas" component={DateSTACK}options={{headerShown :false}} />
+      
     </Tab.Navigator>
   );
 }
@@ -93,6 +80,7 @@ export default function App() {
       }
     }
   )
+  {/* STACKSSS  */}
   return (
     <NavigationContainer>
          <NativeBaseProvider theme = {theme}>

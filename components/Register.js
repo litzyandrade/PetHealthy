@@ -52,10 +52,10 @@ const Register = ({navigation}) => {
                 icon='person'
               />
             <MyTextInput
-                label="Domicilio"
-                placeholder="ejemplo@mail.com"
+                label="Telefono Celular"
+                placeholder="4491236789"
                 placeholderTextColor={darkLight}
-                icon="pin"
+                icon="device-mobile"
               />
             <MyTextInput
                 label="Correo electronico"
