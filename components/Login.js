@@ -23,7 +23,7 @@ import {
   Colors,
 } from './../components/styles';
 import { View } from 'react-native';
-import { Input, Pressable,Icon } from 'native-base';
+import { Input, Pressable,Icon, ScrollView } from 'native-base';
 import {MaterialIcons} from "@expo/vector-icons"
 //colors
 const { darkLight, brand, primary } = Colors;
@@ -36,6 +36,7 @@ const Login = ({navigation}) => {
   const [isHidden, setIsHidden] = useState(false)
   const handleClick= () => setIsHidden(!isHidden)
   return (
+    <ScrollView>
     <StyledContainer>
       <StatusBar style="dark" />
       <InnerContainer>
@@ -60,8 +61,8 @@ const Login = ({navigation}) => {
             
               />
 
-              <StyledButton>
-                <ButtonText>INICIA SESION</ButtonText>
+              <StyledButton onPress={()=> navigation.navigate('Usuario')}>
+                <ButtonText >INICIA SESION</ButtonText>
               </StyledButton>
               <Line />
               <ExtraView>
@@ -73,6 +74,7 @@ const Login = ({navigation}) => {
             </StyledFormArea>
       </InnerContainer>
     </StyledContainer>
+    </ScrollView>
   );
 };
 
