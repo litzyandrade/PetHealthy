@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-
+import axios, {Axios} from 'axios';
 import {
   StyledContainer,
   PageTitle,
@@ -20,20 +20,45 @@ import {
   StyledTextInput,
   PageLogo1,
 } from './../components/styles';
-import { View } from 'react-native';
+import { View, Alert} from 'react-native';
 import { ScrollView} from 'native-base';
-import {MaterialIcons} from "@expo/vector-icons"
 //colors
 const { darkLight, brand, primary } = Colors;
 
 // icon
-import { Octicons, Fontisto, Ionicons } from '@expo/vector-icons';
-import { fontSize } from 'styled-system';
+import { Octicons, Ionicons } from '@expo/vector-icons';
 
 const Register = ({navigation}) => {
   const [hidePassword, setHidePassword] = useState(true);
   const [isHidden, setIsHidden] = useState(false)
   const handleClick= () => setIsHidden(!isHidden)
+
+  const [value,setValue] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    password: ''
+})
+
+
+const handleSubmit = async () =>{
+  const formData = new FormData();
+ 
+  formData.append('name', value.name)
+  formData.append('phone', value.phone)
+  formData.append('email', value.email)
+  formData.append('password', value.password)
+ 
+  const response = await axios.post
+  (
+  'http://192.168.100.7/PetHealthy/register.php',formData,
+  {headers: {'content-type': 'multipart/form-data'}}
+  ) 
+
+  Alert.alert(response.data) 
+  navigation.navigate('Login')
+    
+  }
   return (
     <ScrollView>
     <StyledContainer>
@@ -50,12 +75,14 @@ const Register = ({navigation}) => {
                 placeholderTextColor={darkLight}
                 keyboardType="email-address"
                 icon='person'
+                onChangeText={(text) => setValue({...value,name:text})}
               />
             <MyTextInput
                 label="Telefono Celular"
                 placeholder="4491236789"
                 placeholderTextColor={darkLight}
                 icon="device-mobile"
+                onChangeText={(text) => setValue({...value,phone:text})}
               />
             <MyTextInput
                 label="Correo electronico"
@@ -63,6 +90,7 @@ const Register = ({navigation}) => {
                 placeholderTextColor={darkLight}
                 keyboardType="email-address"
                 icon="mail"
+                onChangeText={(text) => setValue({...value,email:text})}
               />
               <MyTextInput
                 label="Contraseña"
@@ -70,17 +98,9 @@ const Register = ({navigation}) => {
                 placeholderTextColor={darkLight}
                 icon="lock"
                 secureTextEntry = {true}
-            
+                onChangeText={(text) => setValue({...value,password:text})}
               />
-               <MyTextInput
-                label="Confirma contraseña"
-                placeholder="* * * * * * * *"
-                placeholderTextColor={darkLight}
-                icon="lock"
-                secureTextEntry = {true}
-            
-              />
-              <StyledButton>
+              <StyledButton onPress = {handleSubmit}>
                 <ButtonText>Registrarme</ButtonText>
               </StyledButton>
               <Line />
@@ -97,7 +117,7 @@ const Register = ({navigation}) => {
   );
 };
 
-const MyTextInput = ({ label, icon, isPassword, hidePassword, setHidePassword, ...props }) => {
+const MyTextInput = ({ label, icon, isPassword, hidePassword, setHidePassword,value, setValue, ...props }) => {
   return (
     <View>
       <LeftIcon>
