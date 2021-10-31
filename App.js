@@ -52,11 +52,11 @@ function UserTabs() {
       tabBarActiveBackgroundColor:'#4682b4',
       tabBarInactiveBackgroundColor: '#4682b4'
     })}>
-      
+      <Tab.Screen name="Perfil" component={Profile}  options={{headerShown :false}}/>
       <Tab.Screen name="Mascotas" component={Pets} options={{headerShown :false}}/>
       <Tab.Screen name="Consultas" component={Appointments}options={{headerShown :false}} />
       <Tab.Screen name="Crear Cita" component={NewAppointment}options={{headerShown :false}} />
-      <Tab.Screen name="Perfil" component={Profile}  options={{headerShown :false}}/>
+      
       
     </Tab.Navigator>
   );

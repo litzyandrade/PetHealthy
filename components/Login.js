@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-
+import axios, {Axios} from 'axios';
 import {
   StyledContainer,
   PageLogo,
@@ -14,7 +14,6 @@ import {
   RightIcon,
   InnerContainer,
   ButtonText,
-  MsgBox,
   Line,
   ExtraView,
   ExtraText,
@@ -22,19 +21,52 @@ import {
   TextLinkContent,
   Colors,
 } from './../components/styles';
-import { View } from 'react-native';
-import { Input, Pressable,Icon, ScrollView } from 'native-base';
-import {MaterialIcons} from "@expo/vector-icons"
+import { Alert, View } from 'react-native';
+import {ScrollView } from 'native-base';
+
 //colors
 const { darkLight, brand, primary } = Colors;
 
 // icon
-import { Octicons, Fontisto, Ionicons } from '@expo/vector-icons';
+import { Octicons,  Ionicons } from '@expo/vector-icons';
+import { useWorkletCallback } from 'react-native-reanimated';
 
-const Login = ({navigation}) => {
+const Login = ({ navigation}) => {
   const [hidePassword, setHidePassword] = useState(true);
   const [isHidden, setIsHidden] = useState(false)
   const handleClick= () => setIsHidden(!isHidden)
+
+  
+  const [value,setValue] = useState({
+    email: '',
+    password: ''
+})
+
+const handleLogin = async () =>{
+  const formData = new FormData();
+
+  formData.append('email', value.email)
+  formData.append('password', value.password)
+
+  const response = await axios.post
+  (
+  'http://192.168.100.7/PetHealthy/login.php',formData,
+  {headers: {'content-type': 'multipart/form-data'}}
+  ) 
+
+ if (response.data === 'Correo o contraseña incorrectos. Intente de nuevo'){
+    Alert.alert(response.data)
+  } else {
+      const user = response.data;
+
+      console.log(response.data)
+      navigation.navigate('Usuario',{
+        screen: 'Perfil',
+        params: { data: user}
+        });
+  }
+
+}
   return (
     <ScrollView>
     <StyledContainer>
@@ -51,6 +83,7 @@ const Login = ({navigation}) => {
                 placeholderTextColor={darkLight}
                 keyboardType="email-address"
                 icon="mail"
+                onChangeText={(text) => setValue({...value,email:text})}
               />
               <MyTextInput
                 label="Contraseña"
@@ -58,10 +91,10 @@ const Login = ({navigation}) => {
                 placeholderTextColor={darkLight}
                 icon="lock"
                 secureTextEntry = {true}
-            
+                onChangeText={(text) => setValue({...value,password:text})}
               />
 
-              <StyledButton onPress={()=> navigation.navigate('Usuario')}>
+              <StyledButton onPress = {handleLogin}>
                 <ButtonText >INICIA SESION</ButtonText>
               </StyledButton>
               <Line />
@@ -78,7 +111,7 @@ const Login = ({navigation}) => {
   );
 };
 
-const MyTextInput = ({ label, icon, isPassword, hidePassword, setHidePassword, ...props }) => {
+const MyTextInput = ({ label, icon, isPassword, hidePassword, setHidePassword,value, setValue, ...props }) => {
   return (
     <View>
       <LeftIcon>
