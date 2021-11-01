@@ -132,7 +132,7 @@ onPress={() => setShowModal(true)}
                         as={<Ionicons name="person" />}
                         size={7}
                         ml="2"
-                        color="primary.600"
+                        color="#4682b4"
                         />
                     }
                  />
@@ -146,7 +146,7 @@ onPress={() => setShowModal(true)}
                 as={<Ionicons name="call" />}
                 size={7}
                 ml="2"
-                color="primary.600"
+                color="#4682b4"
                 />
             } />
         </View>
@@ -160,7 +160,7 @@ onPress={() => setShowModal(true)}
               as={<Ionicons name="mail" />}
               size={7}
               ml="2"
-              color="primary.600"
+              color="#4682b4"
             />
           }/>
           </View> <View style={{marginBottom: 10, marginTop: 0}}>
@@ -173,7 +173,7 @@ onPress={() => setShowModal(true)}
                     as={<Ionicons name="lock-closed" />}
                     size={7}
                     ml="2"
-                    color="primary.600"
+                    color="#4682b4"
                     />
                 } />
     </View>
@@ -185,7 +185,7 @@ onPress={() => setShowModal(true)}
               as={<Ionicons name="md-navigate" />}
               size={7}
               ml="2"
-              color="primary.600"
+              color="#4682b4"
             />
           }/>
     </View>
@@ -202,7 +202,7 @@ onPress={() => setShowModal(true)}
               >
                 Cancelar
               </Button>
-              <Button
+              <Button style={{backgroundColor: '#4682b4'}}
                 onPress={updateData}
                 leftIcon={<Icon as={Ionicons} name="save" size="sm" />}
                   >
