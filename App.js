@@ -1,19 +1,18 @@
 
 import React from 'react';
-import { NativeBaseProvider,extendTheme, Container} from 'native-base';
+import { NativeBaseProvider,extendTheme} from 'native-base';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './components/Login';
 import Home from './components/Home';
 import Register from './components/Register';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {Text, View, Image, Icon} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import MaterialIcons from  '@expo/vector-icons';
+import {Text,  Image} from 'react-native';
 import Profile from './components/Profile';
 import Pets from './components/Pets';
 import Appointments from './components/Appointments';
 import NewAppointment from './components/NewAppointment';
+
 const Stack = createNativeStackNavigator();
 {/* Custom header   */}
 function CustomHeaderStack(){
@@ -54,6 +53,7 @@ function UserTabs() {
     })}>
       <Tab.Screen name="Perfil" component={Profile}  options={{headerShown :false}}/>
       <Tab.Screen name="Mascotas" component={Pets} options={{headerShown :false}}/>
+
       <Tab.Screen name="Consultas" component={Appointments}options={{headerShown :false}} />
       <Tab.Screen name="Crear Cita" component={NewAppointment}options={{headerShown :false}} />
       
@@ -116,7 +116,8 @@ export default function App() {
                     fontWeight: 'bold',
                     
                   }}}/> 
-  
+                  
+               
     </Stack.Navigator>
       </NativeBaseProvider >
     </NavigationContainer>
