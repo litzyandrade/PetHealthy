@@ -1,11 +1,14 @@
 import React, { useState,useEffect , Component} from 'react';
 import { ScrollView, Card, Text, Input, Button , Icon, Modal, Select, CheckIcon} from 'native-base';
-import {Image, View} from 'react-native';
+import {Image, View,Alert} from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
 import axios, {Axios} from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import {MaterialIcons} from "@expo/vector-icons";
-function Pets(){
+import ListPet from './listPet';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+function Pets({route}){
+  
     const [showModal, setShowModal] = useState(false)
 
     const [image, setImage] = useState(null);
@@ -62,6 +65,8 @@ function Pets(){
             let match = /\.(\w+)$/.exec(filename);
             let type = match ? `image/${match[1]}` : `image`;
             
+            const UserLog = await AsyncStorage.getItem('@storage_Key')
+         
             const formData = new FormData();
            
            
@@ -70,6 +75,7 @@ function Pets(){
             formData.append('raza', value.raza)
             formData.append('color', value.color)
             formData.append('edad', value.edad)
+            formData.append('email', UserLog)
             formData.append('image', { uri: localUri, name: filename, type });
            
            
@@ -84,6 +90,8 @@ function Pets(){
           }
 
         }
+
+
     return (
 <ScrollView>
      <View>
@@ -121,7 +129,7 @@ function Pets(){
         />  
     </View>
     <View>
-    
+    <ListPet/>
     </View>
     <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="xl">
         <Modal.Content maxWidth="400px">
@@ -130,11 +138,11 @@ function Pets(){
           <Modal.Body>
            
           <View style={{ alignItems: 'center' }}>
-          <Button style={{backgroundColor: '#4682b4'}}
-            onPress={pickImage}
-          >Seleccionar Imagen</Button>
-          <Text style={{ fontSize: 12, marginBottom: 20, color: "#888888" }}>{photoStatus}</Text>
-          {image && <Image source={{ uri: image }} style={{ width: 300, height: 300 }} />}
+            <Button style={{backgroundColor: '#4682b4'}}
+              onPress={pickImage}
+            >Seleccionar Imagen</Button>
+            <Text style={{ fontSize: 12, marginBottom: 20, color: "#888888" }}>{photoStatus}</Text>
+            {image && <Image source={{ uri: image }} style={{ width: 300, height: 300 }} />}
         </View>
 
           <View style={{marginBottom: 10, marginTop: 10}}>
@@ -153,70 +161,71 @@ function Pets(){
                 }
             />
         </View>
-        <Select
-        selectedValue={value.sexo}
-        minWidth="200"
-        accessibilityLabel="Genero"
-        placeholder="Genero"
-        _selectedItem={{
-          bg: "teal.600",
-          endIcon: <CheckIcon size="5" />,
-        }}
-        mt={1}
-        onValueChange={(itemValue) => setValue({...value,sexo:itemValue})}
-      >
-        <Select.Item label="Hembra" value="hem" />
-        <Select.Item label="Macho" value="mac" />
+            <Select
+            selectedValue={value.sexo}
+            minWidth="200"
+            accessibilityLabel="Genero"
+            placeholder="Genero"
+            _selectedItem={{
+              bg: "teal.600",
+              endIcon: <CheckIcon size="5" />,
+            }}
+            mt={1}
+            onValueChange={(itemValue) => setValue({...value,sexo:itemValue})}
+          >
+            <Select.Item label="Hembra" value="hembra" />
+            <Select.Item label="Macho" value="macho" />
        
-      </Select>
+        </Select>
       <View style={{marginBottom: 10, marginTop: 10}}>
  
- <Input variant="underlined" 
- placeholder="Raza" 
- style={{width: '100%',fontSize: 15, textAlign: 'left'}}
- onChangeText={(text) => setValue({...value,raza:text})}
- InputLeftElement={
-     <Icon
-     as={<MaterialIcons name="pets" />}
-     size={7}
-     ml="2"
-     color="#4682b4"
-     />
- }
-/>
-</View>
-<View style={{marginBottom: 10, marginTop: 10}}>
- 
- <Input variant="underlined" 
- placeholder="Color" 
- style={{width: '100%',fontSize: 15, textAlign: 'left'}}
- onChangeText={(text) => setValue({...value,color:text})}
- InputLeftElement={
-     <Icon
-     as={<MaterialIcons name="invert-colors" />}
-     size={7}
-     ml="2"
-     color="#4682b4"
-     />
- }
-/>
-</View>
-<View style={{marginBottom: 10, marginTop: 10}}>
- 
- <Input variant="underlined" 
- placeholder="Edad (meses)" 
- style={{width: '100%',fontSize: 15, textAlign: 'left'}}
- onChangeText={(text) => setValue({...value,edad:text})}
- InputLeftElement={
-     <Icon
-     as={<MaterialIcons name="water-damage" />}
-     size={7}
-     ml="2"
-     color="#4682b4"
-     />
- }
-/>
-</View>
+          <Input variant="underlined" 
+          placeholder="Raza" 
+          style={{width: '100%',fontSize: 15, textAlign: 'left'}}
+          onChangeText={(text) => setValue({...value,raza:text})}
+          InputLeftElement={
+              <Icon
+              as={<MaterialIcons name="pets" />}
+              size={7}
+              ml="2"
+              color="#4682b4"
+              />
+          }
+          />
+      </View>
+      <View style={{marginBottom: 10, marginTop: 10}}>
+      
+        <Input variant="underlined" 
+        placeholder="Color" 
+        style={{width: '100%',fontSize: 15, textAlign: 'left'}}
+        onChangeText={(text) => setValue({...value,color:text})}
+        InputLeftElement={
+            <Icon
+            as={<MaterialIcons name="invert-colors" />}
+            size={7}
+            ml="2"
+            color="#4682b4"
+            />
+        }
+        />
+      </View>
+      <View style={{marginBottom: 10, marginTop: 10}}>
+      
+          <Input variant="underlined" 
+          placeholder="Edad (meses)" 
+          style={{width: '100%',fontSize: 15, textAlign: 'left'}}
+          onChangeText={(text) => setValue({...value,edad:text})}
+          InputLeftElement={
+              <Icon
+              as={<MaterialIcons name="water-damage" />}
+              size={7}
+              ml="2"
+              color="#4682b4"
+              />
+          }
+          />
+      </View>
+   
            
           </Modal.Body>
           <Modal.Footer>
