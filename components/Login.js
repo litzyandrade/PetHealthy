@@ -23,7 +23,7 @@ import {
 } from './../components/styles';
 import { Alert, View } from 'react-native';
 import {ScrollView } from 'native-base';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 //colors
 const { darkLight, brand, primary } = Colors;
 
@@ -43,6 +43,7 @@ const Login = ({ navigation}) => {
 })
 
 const handleLogin = async () =>{
+  storeData();
   const formData = new FormData();
 
   formData.append('email', value.email)
@@ -61,11 +62,20 @@ const handleLogin = async () =>{
 
       console.log(response.data)
       navigation.navigate('Usuario',{
-        screen: 'Perfil',
-        params: { data: user}
-        });
+        screen:'Perfil',
+        params: {
+        data: user}});
   }
 
+}
+const storeData = async () => {
+  try {
+    const em = value.email;
+    await AsyncStorage.setItem('@storage_Key', em)
+    console.log(em);
+  } catch (e) {
+    console.log(e);
+  }
 }
   return (
     <ScrollView>

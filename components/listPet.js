@@ -1,53 +1,48 @@
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useState } from "react"
 import {
   Box,
   FlatList,
   Heading,
-  Avatar,
   HStack,
   VStack,
   Text,
   Spacer,
- IconButton,
- Icon,
- Hidden,
- Input
+  IconButton,
+  Icon,
+  Image,
+  Hidden,
+  Input
 } from "native-base"
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios, {Axios} from "axios";
 import { Entypo } from "@expo/vector-icons"
-import { Alert } from "react-native";
-const Appointments =()=>{
-  
-  const [citas, setCitas] = useState([])
-  const [idCita, setIdCita] = useState("")
+import axios, {Axios} from "axios";
 
-  useEffect(() =>{
-    const getData = async() => {
-      const UserLog = await AsyncStorage.getItem('@storage_Key')
-      const formData = new FormData();
-      formData.append('email', UserLog)
-      
-      const response = await axios.post('http://192.168.100.7/PetHealthy/getCitas.php', formData,
-      {headers: {'content-type': 'multipart/form-data'}})
-        setCitas(response.data);
-      console.log("CITAS", citas)
-    }
-    getData();
-    });
+const listPet=()=>{
+   
+    const [pets, setPets] = useState([])
+    const [idPet, setIdPet] = useState("")
+    useEffect(() =>{
+      const getData = async() => {
+        
+        const response = await axios.get('http://192.168.100.7/PetHealthy/getPets.php')
+          setPets(response.data);
+        console.log("MASCOTAS", pets)
+      }
+      getData();
+      }, [setPets]);
     
-    const DeleteAppointment = async () =>{
+     
+      const DeletePet = async () =>{
       
-      const formData = new FormData();
-      formData.append('id', idCita)
-      
-      const response = await axios.post('http://192.168.100.7/PetHealthy/deleteAppointment.php', formData,
-      {headers: {'content-type': 'multipart/form-data'}})
+        const formData = new FormData();
+        formData.append('id', idPet)
+        
+        const response = await axios.post('http://192.168.100.7/PetHealthy/deletePet.php', formData,
+        {headers: {'content-type': 'multipart/form-data'}})
+  
+        Alert.alert(response.data);
+    
+      }
 
-      Alert.alert(response.data);
-  
-    }
-  
       return (
         <Box
           w={{
@@ -56,10 +51,10 @@ const Appointments =()=>{
           }}
         >
           <Heading fontSize="xl" p="4" pb="3">
-            Consultas solicitadas
+            Mis Mascotas
           </Heading>
           <FlatList
-            data={citas}
+            data={pets}
             renderItem={({ item }) => (
               <Box
                 borderBottomWidth="1"
@@ -72,48 +67,42 @@ const Appointments =()=>{
                 py="2"
               >
                 <HStack space={3} justifyContent="space-between">
-                  <Avatar
-                    size="48px"
-                    source={{
-                      uri: "https://www.kindpng.com/picc/m/6-67193_calendario-fechas-horario-fecha-plan-diario-icono-blue.png",
-                    }}
-                  />
+               {item.img && <Image
+                      size={60}
+                      source=
+                      {{uri: item.img}}
+                      alt="Alternate Text"
+    />}
                   <VStack>
                     <Text
+                    fontSize="md"
                       _dark={{
                         color: "warmGray.50",
                       }}
                       color="coolGray.800"
                       bold
                     >
-                      {item.tipo}
+                      {item.Nombre}
                     </Text>
                     <Text
+                    fontSize="sm"
                       color="coolGray.600"
                       _dark={{
                         color: "warmGray.200",
                       }}
                     >
-                      {item.fecha}
-                    </Text>
-                    <Text
-                      color="coolGray.600"
-                      _dark={{
-                        color: "warmGray.200",
-                      }}
-                    >
-                      {item.nombreMascota}
+                      {item.Raza}
                     </Text>
                   </VStack>
                   <Spacer />
                   <Hidden>
                   <Input
                   value= {item.id}
-                  onChangeText = {setIdCita(item.id)}
+                  onChangeText = {setIdPet(item.id)}
                   />
                  </Hidden>
-                  <IconButton
-                        onPress= {DeleteAppointment}
+                        <IconButton
+                        onPress= {DeletePet}
                         icon={<Icon as={Entypo} name="trash" />}
                         borderRadius="full"
                         _icon={{
@@ -122,6 +111,11 @@ const Appointments =()=>{
                         }}
                         _hover={{
                             bg: "#4682b4:alpha.20",
+                        }}
+                        _ios={{
+                            _icon: {
+                            size: "2xl",
+                            },
                         }}
                         />
                 </HStack>
@@ -132,4 +126,5 @@ const Appointments =()=>{
         </Box>
       )
 }
-export default Appointments;
+
+export default listPet;

@@ -1,11 +1,15 @@
-import React, { useState,useEffect , Component} from 'react';
-import { ScrollView, Card, Text, Input, Button , Icon, Modal, Select, CheckIcon} from 'native-base';
-import {Image, View} from 'react-native';
+import React, { useState,useEffect} from 'react';
+import { Text, Input, Button , Icon, Modal, Select, CheckIcon, IconButton} from 'native-base';
+import {Image, View,Alert, SafeAreaView} from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
 import axios, {Axios} from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import {MaterialIcons} from "@expo/vector-icons";
+import ListPet from './listPet';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 function Pets(){
+  
     const [showModal, setShowModal] = useState(false)
 
     const [image, setImage] = useState(null);
@@ -62,6 +66,8 @@ function Pets(){
             let match = /\.(\w+)$/.exec(filename);
             let type = match ? `image/${match[1]}` : `image`;
             
+            const UserLog = await AsyncStorage.getItem('@storage_Key')
+         
             const formData = new FormData();
            
            
@@ -70,6 +76,7 @@ function Pets(){
             formData.append('raza', value.raza)
             formData.append('color', value.color)
             formData.append('edad', value.edad)
+            formData.append('email', UserLog)
             formData.append('image', { uri: localUri, name: filename, type });
            
            
@@ -84,45 +91,19 @@ function Pets(){
           }
 
         }
+
+
     return (
-<ScrollView>
+<SafeAreaView>
      <View>
             <Button leftIcon={<Icon as={Ionicons} name="add-circle" size="sm"  />}
-            style={{backgroundColor: 'black'}} onPress={() => setShowModal(true)}>Agregar Mascota</Button>    
-            <Input
-          placeholder="Buscar Mascota"
-          bg="#fff"
-          width="100%"
-          borderRadius="4"
-          py="3"
-          px="1"
-          fontSize="14"
-          _web={{
-            _focus: { borderColor: 'muted.300', style: { boxShadow: 'none' } },
-          }}
-          InputLeftElement={
-            <Icon
-              m="2"
-              ml="3"
-              size="6"
-              color="gray.400"
-              as={<MaterialIcons name="search" />}
-            />
-          }
-          InputRightElement={
-            <Icon
-              m="2"
-              mr="3"
-              size="6"
-              color="gray.400"
-              as={<MaterialIcons name="pets" />}
-            />
-          }
-        />  
-    </View>
+            style={{backgroundColor: 'black',marginBottom:10}} onPress={() => setShowModal(true)}>Agregar Mascota</Button>    
+     </View>
+   
     <View>
-    
+      <ListPet/>
     </View>
+    
     <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="xl">
         <Modal.Content maxWidth="400px">
           <Modal.CloseButton />
@@ -130,11 +111,11 @@ function Pets(){
           <Modal.Body>
            
           <View style={{ alignItems: 'center' }}>
-          <Button style={{backgroundColor: '#4682b4'}}
-            onPress={pickImage}
-          >Seleccionar Imagen</Button>
-          <Text style={{ fontSize: 12, marginBottom: 20, color: "#888888" }}>{photoStatus}</Text>
-          {image && <Image source={{ uri: image }} style={{ width: 300, height: 300 }} />}
+            <Button style={{backgroundColor: '#4682b4'}}
+              onPress={pickImage}
+            >Seleccionar Imagen</Button>
+            <Text style={{ fontSize: 12, marginBottom: 20, color: "#888888" }}>{photoStatus}</Text>
+            {image && <Image source={{ uri: image }} style={{ width: 300, height: 300 }} />}
         </View>
 
           <View style={{marginBottom: 10, marginTop: 10}}>
@@ -153,70 +134,71 @@ function Pets(){
                 }
             />
         </View>
-        <Select
-        selectedValue={value.sexo}
-        minWidth="200"
-        accessibilityLabel="Genero"
-        placeholder="Genero"
-        _selectedItem={{
-          bg: "teal.600",
-          endIcon: <CheckIcon size="5" />,
-        }}
-        mt={1}
-        onValueChange={(itemValue) => setValue({...value,sexo:itemValue})}
-      >
-        <Select.Item label="Hembra" value="hem" />
-        <Select.Item label="Macho" value="mac" />
+            <Select
+            selectedValue={value.sexo}
+            minWidth="200"
+            accessibilityLabel="Genero"
+            placeholder="Genero"
+            _selectedItem={{
+              bg: "teal.600",
+              endIcon: <CheckIcon size="5" />,
+            }}
+            mt={1}
+            onValueChange={(itemValue) => setValue({...value,sexo:itemValue})}
+          >
+            <Select.Item label="Hembra" value="hembra" />
+            <Select.Item label="Macho" value="macho" />
        
-      </Select>
+        </Select>
       <View style={{marginBottom: 10, marginTop: 10}}>
  
- <Input variant="underlined" 
- placeholder="Raza" 
- style={{width: '100%',fontSize: 15, textAlign: 'left'}}
- onChangeText={(text) => setValue({...value,raza:text})}
- InputLeftElement={
-     <Icon
-     as={<MaterialIcons name="pets" />}
-     size={7}
-     ml="2"
-     color="#4682b4"
-     />
- }
-/>
-</View>
-<View style={{marginBottom: 10, marginTop: 10}}>
- 
- <Input variant="underlined" 
- placeholder="Color" 
- style={{width: '100%',fontSize: 15, textAlign: 'left'}}
- onChangeText={(text) => setValue({...value,color:text})}
- InputLeftElement={
-     <Icon
-     as={<MaterialIcons name="invert-colors" />}
-     size={7}
-     ml="2"
-     color="#4682b4"
-     />
- }
-/>
-</View>
-<View style={{marginBottom: 10, marginTop: 10}}>
- 
- <Input variant="underlined" 
- placeholder="Edad (meses)" 
- style={{width: '100%',fontSize: 15, textAlign: 'left'}}
- onChangeText={(text) => setValue({...value,edad:text})}
- InputLeftElement={
-     <Icon
-     as={<MaterialIcons name="water-damage" />}
-     size={7}
-     ml="2"
-     color="#4682b4"
-     />
- }
-/>
-</View>
+          <Input variant="underlined" 
+          placeholder="Raza" 
+          style={{width: '100%',fontSize: 15, textAlign: 'left'}}
+          onChangeText={(text) => setValue({...value,raza:text})}
+          InputLeftElement={
+              <Icon
+              as={<MaterialIcons name="pets" />}
+              size={7}
+              ml="2"
+              color="#4682b4"
+              />
+          }
+          />
+      </View>
+      <View style={{marginBottom: 10, marginTop: 10}}>
+      
+        <Input variant="underlined" 
+        placeholder="Color" 
+        style={{width: '100%',fontSize: 15, textAlign: 'left'}}
+        onChangeText={(text) => setValue({...value,color:text})}
+        InputLeftElement={
+            <Icon
+            as={<MaterialIcons name="invert-colors" />}
+            size={7}
+            ml="2"
+            color="#4682b4"
+            />
+        }
+        />
+      </View>
+      <View style={{marginBottom: 10, marginTop: 10}}>
+      
+          <Input variant="underlined" 
+          placeholder="Edad (meses)" 
+          style={{width: '100%',fontSize: 15, textAlign: 'left'}}
+          onChangeText={(text) => setValue({...value,edad:text})}
+          InputLeftElement={
+              <Icon
+              as={<MaterialIcons name="water-damage" />}
+              size={7}
+              ml="2"
+              color="#4682b4"
+              />
+          }
+          />
+      </View>
+   
            
           </Modal.Body>
           <Modal.Footer>
@@ -240,8 +222,7 @@ function Pets(){
         </Modal.Content>
       </Modal>
 
-  
-</ScrollView>
+      </SafeAreaView>
     )
 }
 
