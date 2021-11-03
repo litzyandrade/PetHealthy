@@ -1,13 +1,14 @@
-import React, { useState,useEffect , Component} from 'react';
-import { ScrollView, Card, Text, Input, Button , Icon, Modal, Select, CheckIcon} from 'native-base';
-import {Image, View,Alert} from 'react-native';
+import React, { useState,useEffect} from 'react';
+import { Text, Input, Button , Icon, Modal, Select, CheckIcon, IconButton} from 'native-base';
+import {Image, View,Alert, SafeAreaView} from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
 import axios, {Axios} from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import {MaterialIcons} from "@expo/vector-icons";
 import ListPet from './listPet';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-function Pets({route}){
+
+function Pets(){
   
     const [showModal, setShowModal] = useState(false)
 
@@ -93,44 +94,16 @@ function Pets({route}){
 
 
     return (
-<ScrollView>
+<SafeAreaView>
      <View>
             <Button leftIcon={<Icon as={Ionicons} name="add-circle" size="sm"  />}
-            style={{backgroundColor: 'black'}} onPress={() => setShowModal(true)}>Agregar Mascota</Button>    
-            <Input
-          placeholder="Buscar Mascota"
-          bg="#fff"
-          width="100%"
-          borderRadius="4"
-          py="3"
-          px="1"
-          fontSize="14"
-          _web={{
-            _focus: { borderColor: 'muted.300', style: { boxShadow: 'none' } },
-          }}
-          InputLeftElement={
-            <Icon
-              m="2"
-              ml="3"
-              size="6"
-              color="gray.400"
-              as={<MaterialIcons name="search" />}
-            />
-          }
-          InputRightElement={
-            <Icon
-              m="2"
-              mr="3"
-              size="6"
-              color="gray.400"
-              as={<MaterialIcons name="pets" />}
-            />
-          }
-        />  
-    </View>
+            style={{backgroundColor: 'black',marginBottom:10}} onPress={() => setShowModal(true)}>Agregar Mascota</Button>    
+     </View>
+   
     <View>
-    <ListPet/>
+      <ListPet/>
     </View>
+    
     <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="xl">
         <Modal.Content maxWidth="400px">
           <Modal.CloseButton />
@@ -249,8 +222,7 @@ function Pets({route}){
         </Modal.Content>
       </Modal>
 
-  
-</ScrollView>
+      </SafeAreaView>
     )
 }
 

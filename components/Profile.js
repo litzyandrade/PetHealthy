@@ -124,7 +124,8 @@ onPress={() => setShowModal(true)}
           <View style={{marginBottom: 10, marginTop: 10}}>
  
             <Input variant="underlined" 
-                    placeholder="Nombre Completo" 
+                   placeholder= "Nombre Completo"
+                    value= {value.name}
                     style={{width: '100%',fontSize: 15, textAlign: 'left'}}
                     onChangeText={(text) => setValue({...value,name:text})}
                     InputLeftElement={

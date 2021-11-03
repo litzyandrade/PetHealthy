@@ -13,6 +13,9 @@ import Pets from './components/Pets';
 import Appointments from './components/Appointments';
 import NewAppointment from './components/NewAppointment';
 
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Warning: ...']);
 const Stack = createNativeStackNavigator();
 {/* Custom header   */}
 function CustomHeaderStack(){

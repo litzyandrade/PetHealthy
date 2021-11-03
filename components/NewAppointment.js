@@ -11,6 +11,7 @@ const NewAppointment =({route})=>{
   
   const [value,setValue] = useState({
     tipo: '',
+    fecha: '',
     mascota: '',
     propietario: ''
 })
@@ -22,6 +23,7 @@ const handleSubmit = async () =>{
     formData.append('tipo', value.tipo)
     formData.append('mascota', value.mascota)
     formData.append('propietario', value.propietario)
+    formData.append('fecha', value.fecha)
     const response = await axios.post
     (
     'http://192.168.100.7/PetHealthy/AddAppointment.php',formData,
@@ -95,7 +97,22 @@ const handleSubmit = async () =>{
         </HStack>
       </Box>
     </Pressable>
-   
+    <View style={{marginBottom: 10, marginTop: 10}}>
+ 
+ <Input variant="underlined" 
+ placeholder="Fecha AAAA/MM/DD"
+ onChangeText = {(text) => setValue({...value,fecha: text})}
+ style={{width: '100%',fontSize: 15, textAlign: 'left'}}
+ InputLeftElement={
+     <Icon
+     as={<MaterialIcons name="calendar-today" />}
+     size={7}
+     ml="2"
+     color="#4682b4"
+     />
+ }
+ />
+</View>
         <View style={{marginBottom: 10, marginTop: 10}}>
  
             <Input variant="underlined" 

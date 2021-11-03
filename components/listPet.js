@@ -3,14 +3,15 @@ import {
   Box,
   FlatList,
   Heading,
-  Avatar,
   HStack,
   VStack,
   Text,
   Spacer,
   IconButton,
   Icon,
-  Image
+  Image,
+  Hidden,
+  Input
 } from "native-base"
 import { Entypo } from "@expo/vector-icons"
 import axios, {Axios} from "axios";
@@ -18,7 +19,7 @@ import axios, {Axios} from "axios";
 const listPet=()=>{
    
     const [pets, setPets] = useState([])
-  
+    const [idPet, setIdPet] = useState("")
     useEffect(() =>{
       const getData = async() => {
         
@@ -30,7 +31,17 @@ const listPet=()=>{
       }, [setPets]);
     
      
+      const DeletePet = async () =>{
       
+        const formData = new FormData();
+        formData.append('id', idPet)
+        
+        const response = await axios.post('http://192.168.100.7/PetHealthy/deletePet.php', formData,
+        {headers: {'content-type': 'multipart/form-data'}})
+  
+        Alert.alert(response.data);
+    
+      }
 
       return (
         <Box
@@ -84,29 +95,14 @@ const listPet=()=>{
                     </Text>
                   </VStack>
                   <Spacer />
-                  <IconButton
-                        icon={<Icon as={Entypo} name="arrow-with-circle-right" />}
-                        borderRadius="full"
-                        _icon={{
-                            color: "#4682b4",
-                            size: "md",
-                        }}
-                        _hover={{
-                            bg: "#4682b4:alpha.20",
-                        }}
-                        _pressed={{
-                            bg: "#4682b4",
-                            _icon: {
-                            name: "chevron-small-right",
-                            },
-                        }}
-                        _ios={{
-                            _icon: {
-                            size: "2xl",
-                            },
-                        }}
-                        />
+                  <Hidden>
+                  <Input
+                  value= {item.id}
+                  onChangeText = {setIdPet(item.id)}
+                  />
+                 </Hidden>
                         <IconButton
+                        onPress= {DeletePet}
                         icon={<Icon as={Entypo} name="trash" />}
                         borderRadius="full"
                         _icon={{
